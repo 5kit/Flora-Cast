@@ -22,28 +22,33 @@ const IslandTile = ({ title, children, className }) => {
 
 function App() {
   return (
-    <div className="dashboard-grid">
-      {/* 1. Main Weather Section */}
-      <IslandTile title="Weather" className="weather-main">
-        {/* Weather data goes here (Temp, Forecast, Weather Notice) */}
-        <Weather city="London" />
-      </IslandTile>
-
-      {/* 2. Side Tiles (Stacked) */}
-      <div className="sidebar-section">
-        <IslandTile title="Plants of the Season">
-          {/* List of seasonal plants [cite: 122] */}
+    <div>
+      <h1>Flora-Cast</h1>
+      <div className="dashboard-grid">
+        {/* 1. Main Weather Section */}
+        <IslandTile title="Weather" className="weather-main">
+          {/* Weather data goes here (Temp, Forecast, Weather Notice) */}
+          <Weather city="London" />
         </IslandTile>
 
-        <IslandTile title="Search for a Plant">
-          {/* Search bar and results [cite: 125] */}
+        {/* 2. Side Tiles (Stacked) */}
+        <div className="sidebar-section">
+          <IslandTile title="Plants of the Season">
+            {/* List of seasonal plants [cite: 122] */}
+          </IslandTile>
+
+          <br />
+
+          <IslandTile title="Search for a Plant">
+            {/* Search bar and results [cite: 125] */}
+          </IslandTile>
+        </div>
+
+        {/* 3. Bottom Tile */}
+        <IslandTile title="Favourite Plants" className="favorites-footer">
+          {/* Horizontal scroll of favorites [cite: 126] */}
         </IslandTile>
       </div>
-
-      {/* 3. Bottom Tile */}
-      <IslandTile title="Favourite Plants" className="favorites-footer">
-        {/* Horizontal scroll of favorites [cite: 126] */}
-      </IslandTile>
     </div>
   );
 }
