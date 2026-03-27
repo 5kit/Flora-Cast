@@ -1,78 +1,84 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #74ebd5, #acb6e5);
-}
-
+/* Container for the specific weather island */
 .weather-container {
-    height: 100vh;
+    background-color: #d1e9f8; /* Light blue weather background from mockup */
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    min-height: 300px;
+    color: #333;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    justify-content: space-between;
 }
 
-.weather-form {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.weather-input {
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    width: 200px;
-    font-size: 16px;
-}
-
-.weather-button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    background-color: #4facfe;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.weather-button:hover {
-    background-color: #00c6ff;
-}
-
-.weather-card {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    text-align: center;
-    width: 280px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
+/* Header section with City and Time */
 .weather-card h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: #2d4c36; /* Using the theme green for text */
+}
+
+.weather-card .desc {
+    text-transform: capitalize;
+    font-weight: 500;
     margin-bottom: 10px;
 }
 
+/* Primary focus: Temperature on the left */
 .temp {
-    font-size: 40px;
+    font-size: 5rem; /* Largest number as per requirements */
     font-weight: bold;
     margin: 10px 0;
+    line-height: 1;
 }
 
-.desc {
-    text-transform: capitalize;
-    margin-bottom: 15px;
+/* The "Intelligent Interpreter" box */
+.weather-notice-box {
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    padding: 15px;
+    margin: 20px 0;
+    border-left: 5px solid #2d4c36;
+}
+
+.weather-notice-box strong {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
     color: #555;
+    margin-bottom: 5px;
 }
 
+.weather-notice-box p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d4c36;
+}
+
+/* Secondary details row */
 .details {
-    text-align: left;
-    font-size: 14px;
+    display: flex;
+    gap: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 15px;
+    font-size: 0.9rem;
 }
 
+.details p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Loading/Error states */
 .loading {
-    color: white;
-    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-style: italic;
+    color: #666;
 }
