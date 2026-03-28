@@ -76,6 +76,10 @@
     box-sizing: border-box;
 }
 
+.weather-main {
+    background-color: #2d4c3633;
+}
+
 /* Ensure images inside don't overflow */
 .island-content img {
     max-width: 100%;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import "./Weather.css";
 
 // Passing 'city' as a prop allows other components (like your search bar)
 // to control what weather is displayed.
