@@ -2,36 +2,45 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Weather.css";
 
-// Passing 'city' as a prop allows other components (like your search bar)
-// to control what weather is displayed.
 const Weather = ({ city }) => {
   const [weatherData, setWeatherData] = useState(null);
+  const [forecast, setForecast] = useState([]);
   const [error, setError] = useState(false);
+  const API_KEY = "3c55a281d6b83372a349a206cccae9e3";
 
   useEffect(() => {
-    const fetchData = async () => {
-      // Only fetch if a city name actually exists
+    const fetchAllWeather = async () => {
       if (!city) return;
-
       try {
         setError(false);
-        const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=3c55a281d6b83372a349a206cccae9e3`,
+        // Fetch Current Weather
+        const currentRes = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`,
         );
-        setWeatherData(response.data);
+        setWeatherData(currentRes.data);
+
+        // Fetch 5-Day Forecast [cite: 53]
+        const forecastRes = await axios.get(
+          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${API_KEY}`,
+        );
+
+        // Filter to get one reading per day (roughly mid-day)
+        const dailyData = forecastRes.data.list
+          .filter((reading) => reading.dt_txt.includes("12:00:00"))
+          .slice(0, 6); // Get next 6 days [cite: 89]
+
+        setForecast(dailyData);
       } catch (err) {
         console.error(err);
         setError(true);
       }
     };
 
-    fetchData();
-  }, [city]); // This hook runs every time the 'city' argument changes
+    fetchAllWeather();
+  }, [city]);
 
-  // The Hazard Interpreter: Translating raw data into advice for beginners
   const renderWeatherNotice = () => {
     if (!weatherData) return null;
-
     const temp = weatherData.main.temp;
     const wind = weatherData.wind.speed;
 
@@ -40,31 +49,56 @@ const Weather = ({ city }) => {
     return "Current weather is good for your plants";
   };
 
-  if (!city) return <p className="loading">Detecting location... 🌍</p>;
+  const getDayName = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", { weekday: "short" });
+  };
+
+  if (!city) return <p className="loading">Detecting location... </p>;
 
   return (
     <div className="weather-container">
       {weatherData ? (
-        <div className="weather-card">
-          <h2>{weatherData.name}</h2>
-          {/* Largest number on the left as per design requirements */}
-          <p className="temp">{Math.round(weatherData.main.temp)}°C</p>
-          <p className="desc">{weatherData.weather[0].description}</p>
+        <div className="weather-content-wrapper">
+          {/* 1. TOP ROW: Current Data (Left) & Forecast (Right) */}
+          <div className="weather-top-row">
+            <div className="current-brief">
+              <h2>{weatherData.name}</h2>
+              <p className="temp">{Math.round(weatherData.main.temp)}°C</p>
+              <p className="desc">{weatherData.weather[0].description}</p>
+            </div>
 
-          <div className="weather-notice-box">
-            <strong>Weather Notice:</strong>
-            <p>{renderWeatherNotice()}</p>
+            <div className="forecast-row">
+              {forecast.map((day, index) => (
+                <div key={index} className="forecast-box">
+                  <span className="forecast-day">{getDayName(day.dt_txt)}</span>
+                  <span className="forecast-temp">
+                    {Math.round(day.main.temp)}°C
+                  </span>
+                  <img
+                    src={`https://openweathermap.org/img/wn/${day.weather[0].icon}.png`}
+                    alt="icon"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="details">
-            <p>Humidity: {weatherData.main.humidity}%</p>
-            <p>Wind: {weatherData.wind.speed} m/s</p>
+          {/* 2. BOTTOM ROW: Spans full width */}
+          <div className="weather-bottom-row">
+            <div className="weather-notice-box">
+              <strong>Weather Notice:</strong>
+              <p>{renderWeatherNotice()}</p>
+            </div>
+
+            <div className="details">
+              <p>Humidity: {weatherData.main.humidity}%</p>
+              <p>Wind: {weatherData.wind.speed} m/s</p>
+            </div>
           </div>
         </div>
       ) : (
-        <p className="loading">
-          {error ? "City not found" : "Loading weather..."}
-        </p>
+        <p className="loading">{error ? "City not found" : "Loading..."}</p>
       )}
     </div>
   );
