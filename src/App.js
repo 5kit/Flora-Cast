@@ -34,19 +34,19 @@ function App() {
         {/* 2. Side Tiles (Stacked) */}
         <div className="sidebar-section">
           <IslandTile title="Plants of the Season">
-            {/* List of seasonal plants [cite: 122] */}
+            {/* List of seasonal plants */}
           </IslandTile>
 
           <br />
 
           <IslandTile title="Search for a Plant">
-            {/* Search bar and results [cite: 125] */}
+            {/* Search bar and results */}
           </IslandTile>
         </div>
 
         {/* 3. Bottom Tile */}
         <IslandTile title="Favourite Plants" className="favorites-footer">
-          {/* Horizontal scroll of favorites [cite: 126] */}
+          {/* Horizontal scroll of favorites */}
         </IslandTile>
       </div>
     </div>
