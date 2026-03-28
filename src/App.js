@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Weather from "./Weather";
 import "./App.css";
 import logo from "./Logo.png";
+import spinachImg from "./plantImg/spinach.jpg";
 
 function PlantIsland({ title, children }) {
   return (
@@ -37,6 +38,19 @@ function App() {
     "Succulent",
     "Spinach",
   ];
+
+  const plantImages = {
+    "Aloe Vera": "https://via.placeholder.com/96?text=Aloe+Vera",
+    Monstera: "https://via.placeholder.com/96?text=Monstera",
+    Fern: "https://via.placeholder.com/96?text=Fern",
+    Basil: "https://via.placeholder.com/96?text=Basil",
+    "Snake Plant": "https://via.placeholder.com/96?text=Snake+Plant",
+    "Spider Plant": "https://via.placeholder.com/96?text=Spider+Plant",
+    Cactus: "https://via.placeholder.com/96?text=Cactus",
+    "Peace Lily": "https://via.placeholder.com/96?text=Peace+Lily",
+    Succulent: "https://via.placeholder.com/96?text=Succulent",
+    Spinach: spinachImg,
+  };
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -88,19 +102,18 @@ function App() {
               {searchResults.length === 0 ? (
                 <p>No results yet</p>
               ) : (
-<div className="plant-search-results">
-  {searchResults.length === 0 ? (
-    <p>No results yet</p>
-  ) : (
-    <div className="plant-result-chips">
-      {searchResults.map((plant) => (
-        <span key={plant} className="plant-chip">
-          {plant}
-        </span>
-      ))}
-    </div>
-  )}
-</div>
+                <div className="plant-result-grid">
+                  {searchResults.map((plant) => (
+                    <article key={plant} className="plant-card">
+                      <img
+                        src={plantImages[plant]}
+                        alt={`${plant} thumbnail`}
+                        className="plant-card-img"
+                      />
+                      <div className="plant-card-label">{plant}</div>
+                    </article>
+                  ))}
+                </div>
               )}
             </div>
           </IslandTile>

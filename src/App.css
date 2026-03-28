@@ -137,29 +137,45 @@
   color: #ddd;
 }
 
-.plant-result-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.plant-result-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
   margin-top: 8px;
-  width: 100%;
+}
+
+.plant-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #2d4c36;
+  border-radius: 999px;
+  padding: 8px 12px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+}
+
+.plant-card-img {
+  width: 48px;
+  height: 48px;
+  min-width: 42px;
+  min-height: 42px;
+  max-width: 42px;
+  max-height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.plant-card-label {
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .plant-chip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-  padding: 8px 12px;
-  background-color: rgba(255, 255, 255, 0.95);
+  display: inline-block;
+  padding: 20px 150px;
+  background-color: rgba(255, 255, 255, 0.9);
   color: #2d4c36;
   border-radius: 999px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.16);
-}
-
-.plant-chip-icon {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  object-fit: cover;
 }
