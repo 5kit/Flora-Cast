@@ -121,7 +121,20 @@ function App() {
 
         {/* 3. Bottom Tile */}
         <IslandTile title="Favourite Plants" className="favorites-footer">
-          {/* Horizontal scroll of favorites */}
+          {/* Horizontal scroll of favorites */
+          <div className="plant-fav-grid">
+            {plants.map((plant) => (
+              <article key={plant} className="plant-fav-card">
+                <img
+                  src={plantImages[plant]}
+                  alt={`${plant} thumbnail`}
+                  className="plant-fav-card-img"
+                />
+                <div className="plant-fav-card-label">{plant}</div>
+              </article>
+            ))}
+          </div>
+          }
         </IslandTile>
       </div>
     </div>
