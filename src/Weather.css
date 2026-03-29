@@ -1,84 +1,77 @@
-/* Container for the specific weather island */
+/* Main Container - Transparent & No Scroll */
 .weather-container {
-    background-color: #8a4a4a; /* Light blue weather background from mockup */
-    border-radius: 20px;
-    padding: 30px;
-    position: relative;
-    min-height: 300px;
-    color: #333;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    background: transparent;
+    color: #fff;
+    padding: 10px;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
-/* Header section with City and Time */
-.weather-card h2 {
-    font-size: 1.5rem;
-    margin: 0;
-    color: #2d4c36; /* Using the theme green for text */
-}
-
-.weather-card .desc {
-    text-transform: capitalize;
-    font-weight: 500;
+/* Row 1: Brief Data + Forecast */
+.weather-top-row {
+    display: flex;
+    align-items: center; /* Vertically centers forecast with temp */
+    gap: 30px;
     margin-bottom: 10px;
 }
 
-/* Primary focus: Temperature on the left */
-.temp {
-    font-size: 5rem; /* Largest number as per requirements */
-    font-weight: bold;
-    margin: 10px 0;
-    line-height: 1;
+/* Holds London, 9C, and Description */
+.current-brief {
+    min-width: fit-content;
 }
 
-/* The "Intelligent Interpreter" box */
+.temp {
+    font-size: 6rem; /* Largest element for glanceability  */
+    font-weight: bold;
+    margin: 0;
+    line-height: 1;
+    color: #9f9;
+    text-shadow: 2px;
+}
+
+/* Forecast row positioned immediately to the right */
+.forecast-row {
+    display: flex;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+/* Transparent Glass Forecast Boxes */
+.forecast-box {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    padding: 8px;
+    flex: 1; /* Makes all boxes equal width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 55px;
+    min-height: 100px;
+}
+
+/* Row 2: Full-width Notice & Details */
+.weather-bottom-row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .weather-notice-box {
-    background-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
     border-radius: 12px;
     padding: 15px;
-    margin: 20px 0;
+    margin: 10px 0;
     border-left: 5px solid #2d4c36;
+    width: 90%; /* Spans across both top sections */
 }
 
-.weather-notice-box strong {
-    display: block;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    color: #555;
-    margin-bottom: 5px;
-}
-
-.weather-notice-box p {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #2d4c36;
-}
-
-/* Secondary details row */
 .details {
     display: flex;
     gap: 20px;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    padding-top: 15px;
     font-size: 0.9rem;
-}
-
-.details p {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-/* Loading/Error states */
-.loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    font-style: italic;
-    color: #666;
+    padding-left: 5px;
 }
