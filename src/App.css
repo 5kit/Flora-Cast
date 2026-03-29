@@ -183,3 +183,41 @@
     color: #2d4c36;
     border-radius: 999px;
 }
+
+.plant-fav-grid {
+    display: flex;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 1px;
+    overflow: scroll;
+}
+
+.plant-fav-card {
+    display: grid;
+    align-items: center;
+    gap: 2px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #2d4c36;
+    border-radius: 999px;
+    padding: 12px 8px;
+    padding-bottom: 25px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+}
+
+.plant-fav-card-img {
+    width: 48px;
+    height: 48px;
+    min-width: 84px;
+    min-height: 84px;
+    max-width: 84px;
+    max-height: 84px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.plant-fav-card-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+}
