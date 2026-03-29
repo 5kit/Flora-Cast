@@ -16,11 +16,10 @@ code {
 html,
 body,
 #root {
-    height: 100vh;
-    width: 100vw;
+    height: auto;
+    width: auto;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Disables page-level scrolling */
     display: flex;
     flex-direction: column;
 }
