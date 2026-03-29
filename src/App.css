@@ -42,7 +42,7 @@
 /* 2. Desktop/Tablet Layout (Tiled) */
 @media (min-width: 1000px) {
     .dashboard-grid {
-        grid-template-columns: 2fr 1fr; /* Weather 2/3, Sidebars 1/3  */
+        grid-template-columns: 3fr 2fr; /* Weather 2/3, Sidebars 1/3  */
         grid-template-rows: auto auto;
     }
 
@@ -71,7 +71,7 @@
     position: relative;
     margin-top: 25px;
     color: white;
-    min-height: 150px; /* Minimum height, but can grow */
+    min-height: 120px; /* Minimum height, but can grow */
     width: 100%; /* Ensures it fits its grid tile */
     box-sizing: border-box;
 }
@@ -94,11 +94,13 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
 .app-logo {
     width: 280px;
     max-width: 35vw;
     display: block;
     margin: 0 auto 14px;
+    padding: 10px 0 0 0;
     float: none;
 }
 
@@ -150,10 +152,20 @@
 
 .plant-card {
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 10px;
     background: #ffffff77;
     color: #fff;
+    border-radius: 999px;
+    padding: 8px 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+}
+
+.plant-star {
+    display: flex;
+    flex-direction: row;
+    background: #ffffff77;
     border-radius: 999px;
     padding: 8px 12px;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
@@ -196,4 +208,165 @@
     /* Hide scrollbar for IE, Edge and Firefox */
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+}
+
+/* Each row contains the star and the card */
+.plant-result-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+/* The Star Circle */
+.plant-star-circle {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.2); /* Glass effect */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Prevents shrinking */
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.favorites-horizontal-list {
+    max-width: 90vw;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+/* The Plant Pill */
+.plant-card-link {
+    flex-grow: 1; /* Makes the plant card take up the remaining space */
+    text-decoration: none;
+    color: inherit;
+}
+
+.plant-card {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2); /* Glass effect */
+    padding: 5px 15px;
+    border-radius: 40px; /* Pill shape */
+    gap: 12px;
+}
+
+.plant-card-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.plant-info {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+}
+
+.plant-name {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.plant-type {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* Active state for the star circle */
+.plant-star-circle.active {
+    background-color: rgba(255, 204, 0, 0.3); /* Transparent gold */
+    border: 1px solid #ffcc00;
+}
+
+.plant-star-circle.active .star-btn {
+    color: #ffcc00;
+}
+
+.favorites-horizontal-list {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 15px 10px;
+    scrollbar-width: none;
+}
+
+/* The Big Card */
+.fav-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 15px;
+    min-width: 110px; /* Taller than it is wide */
+    height: 150px;
+    transition: transform 0.2s ease;
+}
+
+.fav-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Image styling */
+.fav-card-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Text styling */
+.fav-card-info {
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.fav-card-name {
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.fav-card-type {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+/* Remove button positioned on the card */
+.fav-card-remove {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.fav-card-remove:hover {
+    color: #ff4d4d;
 }
