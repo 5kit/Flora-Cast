@@ -1,7 +1,7 @@
 /* Main Container - Transparent & No Scroll */
 .weather-container {
     background: transparent;
-    color: #333;
+    color: #fff;
     padding: 10px;
     height: 100%;
     display: flex;
@@ -26,7 +26,8 @@
     font-weight: bold;
     margin: 0;
     line-height: 1;
-    color: #2d4c36;
+    color: #9f9;
+    text-shadow: 2px;
 }
 
 /* Forecast row positioned immediately to the right */

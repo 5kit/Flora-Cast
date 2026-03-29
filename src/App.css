@@ -5,7 +5,7 @@
     padding: 20px;
     position: relative;
     margin-top: 25px; /* Space for the tab header */
-    color: white;
+    color: rgb(255, 255, 255);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -77,11 +77,109 @@
 }
 
 .weather-main {
-    background-color: #2d4c3633;
+    background-color: #2d4c3688;
+    backdrop-filter: blur(10px);
 }
 
 /* Ensure images inside don't overflow */
 .island-content img {
     max-width: 100%;
     height: auto;
+}
+.app-background {
+    min-height: 100vh;
+    background-image: url("backgroundFlora.png"); /* Subtle plant-themed background */
+    background-position: center bottom;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.app-logo {
+    width: 280px;
+    max-width: 35vw;
+    display: block;
+    margin: 0 auto 14px;
+    float: none;
+}
+
+.plant-search-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.plant-search-input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid #8aa497;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.plant-search-btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    background: #6fa46a;
+    color: white;
+    cursor: pointer;
+}
+
+.plant-search-btn:hover {
+    background: #5f945d;
+}
+
+.plant-search-results ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.plant-search-results p {
+    margin: 0;
+    color: #ddd;
+}
+
+.plant-result-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.plant-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #2d4c36;
+    border-radius: 999px;
+    padding: 8px 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+}
+
+.plant-card-img {
+    width: 48px;
+    height: 48px;
+    min-width: 42px;
+    min-height: 42px;
+    max-width: 42px;
+    max-height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.plant-card-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.plant-chip {
+    display: inline-block;
+    padding: 20px 150px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #2d4c36;
+    border-radius: 999px;
 }
