@@ -325,9 +325,11 @@
 .fav-card-img {
     width: 70px;
     height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
+    aspect-ratio: 1 / 1; /* Forces square dimensions */
+    border-radius: 50%; /* Perfect circle */
+    object-fit: cover; /* Prevents stretching */
+    display: block;
+    margin: 0 auto 10px; /* Centers image horizontally */
     border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
