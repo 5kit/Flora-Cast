@@ -35,7 +35,7 @@
     grid-template-columns: 1fr; /* Everything takes full width */
     gap: 50px;
     padding: 15px;
-    max-width: 1500px;
+    max-width: calc(min(1500px, 100vw - 30px));
     margin: 0 auto;
 }
 
@@ -238,13 +238,7 @@
     cursor: pointer;
 }
 
-.favorites-horizontal-list {
-    max-width: 90vw;
-    overflow-x: auto;
-    overflow-y: hidden;
-}
-
-/* The Plant Pill */
+/* item */
 .plant-card-link {
     flex-grow: 1; /* Makes the plant card take up the remaining space */
     text-decoration: none;
@@ -293,13 +287,17 @@
     color: #ffcc00;
 }
 
+.favorites-footer {
+    max-width: calc(max(650px, 100vw - 30px));
+}
+
 .favorites-horizontal-list {
+    overflow-x: auto;
+    overflow-y: hidden;
     display: flex;
     flex-direction: row;
     gap: 20px;
-    overflow-x: auto;
     padding: 15px 10px;
-    scrollbar-width: none;
 }
 
 /* The Big Card */
