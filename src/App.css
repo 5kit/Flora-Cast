@@ -35,14 +35,14 @@
     grid-template-columns: 1fr; /* Everything takes full width */
     gap: 50px;
     padding: 15px;
-    max-width: 1500px;
+    max-width: calc(min(1500px, 100vw - 30px));
     margin: 0 auto;
 }
 
 /* 2. Desktop/Tablet Layout (Tiled) */
 @media (min-width: 1000px) {
     .dashboard-grid {
-        grid-template-columns: 2fr 1fr; /* Weather 2/3, Sidebars 1/3  */
+        grid-template-columns: 3fr 2fr; /* Weather 2/3, Sidebars 1/3  */
         grid-template-rows: auto auto;
     }
 
@@ -71,7 +71,7 @@
     position: relative;
     margin-top: 25px;
     color: white;
-    min-height: 150px; /* Minimum height, but can grow */
+    min-height: 120px; /* Minimum height, but can grow */
     width: 100%; /* Ensures it fits its grid tile */
     box-sizing: border-box;
 }
@@ -94,11 +94,13 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
 .app-logo {
     width: 280px;
     max-width: 35vw;
     display: block;
     margin: 0 auto 14px;
+    padding: 10px 0 0 0;
     float: none;
 }
 
@@ -114,7 +116,7 @@
     border: 1px solid #8aa497;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.2);
-    color: #fff;
+    color: #bfb;
 }
 
 .plant-search-btn {
@@ -150,10 +152,20 @@
 
 .plant-card {
     display: flex;
+    flex-direction: row;
     align-items: center;
     gap: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    color: #2d4c36;
+    background: #ffffff77;
+    color: #fff;
+    border-radius: 999px;
+    padding: 8px 12px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+}
+
+.plant-star {
+    display: flex;
+    flex-direction: row;
+    background: #ffffff77;
     border-radius: 999px;
     padding: 8px 12px;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
@@ -184,40 +196,175 @@
     border-radius: 999px;
 }
 
-.plant-fav-grid {
+.plant-result-grid {
+    height: 200px;
+    overflow: auto;
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+/* Each row contains the star and the card */
+.plant-result-row {
     display: flex;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    margin-top: 1px;
-    overflow: scroll;
-}
-
-.plant-fav-card {
-    display: grid;
     align-items: center;
-    gap: 2px;
-    background: rgba(255, 255, 255, 0.9);
-    color: #2d4c36;
-    border-radius: 999px;
-    padding: 12px 8px;
-    padding-bottom: 25px;
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    gap: 10px;
+    margin-bottom: 12px;
 }
 
-.plant-fav-card-img {
-    width: 48px;
-    height: 48px;
-    min-width: 84px;
-    min-height: 84px;
-    max-width: 84px;
-    max-height: 84px;
+/* The Star Circle */
+.plant-star-circle {
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.2); /* Glass effect */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Prevents shrinking */
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+/* item */
+.plant-card-link {
+    flex-grow: 1; /* Makes the plant card take up the remaining space */
+    text-decoration: none;
+    color: inherit;
+}
+
+.plant-card {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2); /* Glass effect */
+    padding: 5px 15px;
+    border-radius: 40px; /* Pill shape */
+    gap: 12px;
+}
+
+.plant-card-img {
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     object-fit: cover;
-    object-position: center;
 }
 
-.plant-fav-card-label {
-    font-weight: 600;
-    font-size: 0.9rem;
+.plant-info {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+}
+
+.plant-name {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.plant-type {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* Active state for the star circle */
+.plant-star-circle.active {
+    background-color: rgba(255, 204, 0, 0.3); /* Transparent gold */
+    border: 1px solid #ffcc00;
+}
+
+.plant-star-circle.active .star-btn {
+    color: #ffcc00;
+}
+
+.favorites-footer {
+    max-width: calc(max(650px, 100vw - 30px));
+}
+
+.favorites-horizontal-list {
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 15px 10px;
+}
+
+/* The Big Card */
+.fav-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 15px;
+    min-width: 110px; /* Taller than it is wide */
+    height: 150px;
+    transition: transform 0.2s ease;
+}
+
+.fav-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Image styling */
+.fav-card-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Text styling */
+.fav-card-info {
+    color: white;
+    text-decoration: none;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.fav-card-name {
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.fav-card-type {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+/* Remove button positioned on the card */
+.fav-card-remove {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.fav-card-remove:hover {
+    color: #ff4d4d;
 }

@@ -1,17 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Papa from "papaparse";
 import Weather from "./Weather";
 import "./App.css";
 import logo from "./Logo.png";
-import spinachImg from "./plantImg/spinach.jpg";
-
-function PlantIsland({ title, children }) {
-  return (
-    <div className="island-container">
-      <div className="island-tab">{title}</div>
-      <div className="plant-grid">{children}</div>
-    </div>
-  );
-}
 
 const IslandTile = ({ title, children, className }) => {
   return (
@@ -25,31 +16,42 @@ const IslandTile = ({ title, children, className }) => {
 function App() {
   const [plantSearch, setPlantSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [allPlants, setAllPlants] = useState([]);
 
-  const plants = [
-    "Aloe Vera",
-    "Monstera",
-    "Fern",
-    "Basil",
-    "Snake Plant",
-    "Spider Plant",
-    "Cactus",
-    "Peace Lily",
-    "Succulent",
-    "Spinach",
-  ];
+  // 1. Initialize favorites from localStorage (Cache)
+  const [favorites, setFavorites] = useState(() => {
+    const saved = localStorage.getItem("favouritePlants");
+    return saved ? JSON.parse(saved) : [];
+  });
 
-  const plantImages = {
-    "Aloe Vera": "https://via.placeholder.com/96?text=Aloe+Vera",
-    Monstera: "https://via.placeholder.com/96?text=Monstera",
-    Fern: "https://via.placeholder.com/96?text=Fern",
-    Basil: "https://via.placeholder.com/96?text=Basil",
-    "Snake Plant": "https://via.placeholder.com/96?text=Snake+Plant",
-    "Spider Plant": "https://via.placeholder.com/96?text=Spider+Plant",
-    Cactus: "https://via.placeholder.com/96?text=Cactus",
-    "Peace Lily": "https://via.placeholder.com/96?text=Peace+Lily",
-    Succulent: "https://via.placeholder.com/96?text=Succulent",
-    Spinach: spinachImg,
+  // Load CSV data on mount
+  useEffect(() => {
+    Papa.parse("/plants.csv", {
+      download: true,
+      header: true,
+      complete: (results) => {
+        setAllPlants(results.data);
+      },
+    });
+  }, []);
+
+  // 2. Sync favorites to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("favouritePlants", JSON.stringify(favorites));
+  }, [favorites]);
+
+  // 3. Toggle Favorite Logic
+  const toggleFavorite = (plant) => {
+    setFavorites((prev) => {
+      const isAlreadyFav = prev.some((p) => p.name === plant.name);
+      if (isAlreadyFav) {
+        // Remove if exists
+        return prev.filter((p) => p.name !== plant.name);
+      } else {
+        // Add if new
+        return [...prev, plant];
+      }
+    });
   };
 
   const handleSearch = (event) => {
@@ -59,11 +61,9 @@ function App() {
       setSearchResults([]);
       return;
     }
-
-    const results = plants.filter((plant) =>
-      plant.toLowerCase().includes(query)
+    const results = allPlants.filter((plant) =>
+      plant.name?.toLowerCase().includes(query),
     );
-
     setSearchResults(results);
   };
 
@@ -71,18 +71,16 @@ function App() {
     <div className="app-background">
       <img src={logo} alt="Flora-Cast logo" className="app-logo" />
       <div className="dashboard-grid">
-        {/* 1. Main Weather Section */}
         <IslandTile title="Weather" className="weather-main">
           <Weather city="London" />
         </IslandTile>
 
-        {/* 2. Side Tiles (Stacked) */}
         <div className="sidebar-section">
           <IslandTile title="Plants of the Season">
-            {/* List of seasonal plants */}
+            {/* Seasonal logic */}
           </IslandTile>
 
-          <br />
+          <br></br>
 
           <IslandTile title="Search for a Plant">
             <form className="plant-search-form" onSubmit={handleSearch}>
@@ -98,43 +96,73 @@ function App() {
               </button>
             </form>
 
-            <div className="plant-search-results">
-              {searchResults.length === 0 ? (
-                <p>No results yet</p>
-              ) : (
-                <div className="plant-result-grid">
-                  {searchResults.map((plant) => (
-                    <article key={plant} className="plant-card">
-                      <img
-                        src={plantImages[plant]}
-                        alt={`${plant} thumbnail`}
-                        className="plant-card-img"
-                      />
-                      <div className="plant-card-label">{plant}</div>
-                    </article>
-                  ))}
-                </div>
-              )}
+            <div className="plant-result-grid">
+              {searchResults.map((plant, index) => {
+                // Check if this specific plant is in favorites
+                const isFav = favorites.some((p) => p.name === plant.name);
+
+                return (
+                  <div key={index} className="plant-result-row">
+                    <div
+                      className={`plant-star-circle ${isFav ? "active" : ""}`}
+                      onClick={() => toggleFavorite(plant)}
+                    >
+                      <button className="star-btn">{isFav ? "★" : "☆"}</button>
+                    </div>
+
+                    <a
+                      href={plant.wiki}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="plant-card-link"
+                    >
+                      <article className="plant-card">
+                        <img
+                          src={plant.image}
+                          alt={plant.name}
+                          className="plant-card-img"
+                        />
+                        <div className="plant-info">
+                          <span className="plant-name">{plant.name}</span>
+                          <i className="plant-type">{plant.type}</i>
+                        </div>
+                      </article>
+                    </a>
+                  </div>
+                );
+              })}
             </div>
           </IslandTile>
         </div>
 
-        {/* 3. Bottom Tile */}
+        {/* 4. Display Favorites in the Footer */}
         <IslandTile title="Favourite Plants" className="favorites-footer">
-          {/* Horizontal scroll of favorites */
-          <div className="plant-fav-grid">
-            {plants.map((plant) => (
-              <article key={plant} className="plant-fav-card">
-                <img
-                  src={plantImages[plant]}
-                  alt={`${plant} thumbnail`}
-                  className="plant-fav-card-img"
-                />
-                <div className="plant-fav-card-label">{plant}</div>
-              </article>
-            ))}
+          <div className="favorites-horizontal-list">
+            {favorites.length > 0 ? (
+              favorites.map((plant, index) => (
+                <div key={index} className="fav-card">
+                  {/* Remove button at the top right of the card */}
+                  <button
+                    className="fav-card-remove"
+                    onClick={() => toggleFavorite(plant)}
+                  >
+                    ×
+                  </button>
+                  <a href={plant.wiki}>
+                    <img src={plant.image} alt="" className="fav-card-img" />
+                    <div className="fav-card-info">
+                      <span className="fav-card-name">{plant.name}</span>
+                      <span className="fav-card-type">{plant.type}</span>
+                    </div>
+                  </a>
+                </div>
+              ))
+            ) : (
+              <p className="no-favs-text">
+                Your garden is empty. Start by starring some plants!
+              </p>
+            )}
           </div>
-          }
         </IslandTile>
       </div>
     </div>
