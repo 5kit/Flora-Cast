@@ -3,6 +3,10 @@ import Papa from "papaparse";
 import Weather from "./Weather";
 import "./App.css";
 import logo from "./Logo.png";
+import bgSpring from "./backgrounds/BackgroundSpring.png";
+import bgSummer from "./backgrounds/backgroundSUMMER.png";
+import bgAutumn from "./backgrounds/BackgroundAutumn.png";
+import bgWinter from "./backgrounds/BackgroundWinter.png";
 
 const IslandTile = ({ title, children, className }) => {
   return (
@@ -13,10 +17,58 @@ const IslandTile = ({ title, children, className }) => {
   );
 };
 
+function getSeason(date = new Date(), hemisphere = "northern") {
+  const month = date.getMonth() + 1; // JS months 0-11
+  let season = "winter"; // default
+
+  if (month >= 3 && month <= 5) season = "spring";
+  else if (month >= 6 && month <= 8) season = "summer";
+  else if (month >= 9 && month <= 11) season = "autumn";
+
+  if (hemisphere === "southern") {
+    const swap = {
+      spring: "autumn",
+      summer: "winter",
+      autumn: "spring",
+      winter: "summer",
+    };
+    season = swap[season] || season;
+  }
+
+  return season;
+}
+
 function App() {
   const [plantSearch, setPlantSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [allPlants, setAllPlants] = useState([]);
+  const [hemisphere, setHemisphere] = useState("northern");
+
+  useEffect(() => {
+    if (navigator?.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          if (position.coords.latitude >= 0) {
+            setHemisphere("northern");
+          } else {
+            setHemisphere("southern");
+          }
+        },
+        () => {
+          // permission denied or error: keep default
+        },
+      );
+    }
+  }, []);
+
+  const season = getSeason(new Date(), hemisphere);
+  const seasonBackgrounds = {
+    spring: bgSpring,
+    summer: bgSummer,
+    autumn: bgAutumn,
+    winter: bgWinter,
+  };
+  const currentSeasonBackground = seasonBackgrounds[season] || bgSummer;
 
   // 1. Initialize favorites from localStorage (Cache)
   const [favorites, setFavorites] = useState(() => {
@@ -68,9 +120,24 @@ function App() {
   };
 
   return (
-    <div className="app-background">
+    <div
+      className="app-background"
+      style={{
+        backgroundImage: `url(${currentSeasonBackground})`,
+      }}
+    >
       <img src={logo} alt="Flora-Cast logo" className="app-logo" />
-      <div className="dashboard-grid">
+      <div className="season-chip">Season: {season.charAt(0).toUpperCase() + season.slice(1)}</div>      <div className="hemisphere-selector">
+        <label htmlFor="hemisphere-select">Hemisphere</label>
+        <select
+          id="hemisphere-select"
+          value={hemisphere}
+          onChange={(e) => setHemisphere(e.target.value)}
+        >
+          <option value="northern">Northern Hemisphere</option>
+          <option value="southern">Southern Hemisphere</option>
+        </select>
+      </div>      <div className="dashboard-grid">
         <IslandTile title="Weather" className="weather-main">
           <Weather city="London" />
         </IslandTile>
