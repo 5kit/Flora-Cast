@@ -88,11 +88,56 @@
 }
 .app-background {
     min-height: 100vh;
-    background-image: url("backgroundFlora.png"); /* Subtle plant-themed background */
     background-position: center bottom;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    transition: background-image 0.6s ease-in-out;
+}
+
+.season-chip {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.55);
+    color: #ffffff;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(4px);
+}
+
+.location-selector {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(4px);
+}
+
+.location-selector select {
+    background: rgba(50, 50, 50, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    padding: 2px 6px;
+}
+
+/* Styles the actual list that drops down */
+.location-selector select option {
+    background-color: #2a3d30; /* A darker green for the list */
+    color: white;
+    padding: 10px;
 }
 
 .app-logo {
