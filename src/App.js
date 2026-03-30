@@ -8,6 +8,13 @@ import bgSummer from "./backgrounds/backgroundSUMMER.png";
 import bgAutumn from "./backgrounds/BackgroundAutumn.png";
 import bgWinter from "./backgrounds/BackgroundWinter.png";
 
+// 1. Preset Locations for testing different hemispheres and temperatures
+const LOCATION_PRESETS = [
+  { name: "London", lat: 51.5074, lon: -0.1278, hemisphere: "northern" },
+  { name: "Sydney", lat: -33.8688, lon: 151.2093, hemisphere: "southern" },
+  { name: "Dubai", lat: 25.2048, lon: 55.2708, hemisphere: "northern" },
+];
+
 const IslandTile = ({ title, children, className }) => {
   return (
     <div className={`island-container ${className}`}>
@@ -18,8 +25,8 @@ const IslandTile = ({ title, children, className }) => {
 };
 
 function getSeason(date = new Date(), hemisphere = "northern") {
-  const month = date.getMonth() + 1; // JS months 0-11
-  let season = "winter"; // default
+  const month = date.getMonth() + 1;
+  let season = "winter";
 
   if (month >= 3 && month <= 5) season = "spring";
   else if (month >= 6 && month <= 8) season = "summer";
@@ -34,7 +41,6 @@ function getSeason(date = new Date(), hemisphere = "northern") {
     };
     season = swap[season] || season;
   }
-
   return season;
 }
 
@@ -43,21 +49,27 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [allPlants, setAllPlants] = useState([]);
   const [hemisphere, setHemisphere] = useState("northern");
+  const [userCity, setUserCity] = useState("London");
 
+  // 2. Automatic Geolocation on Mount
   useEffect(() => {
     if (navigator?.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          if (position.coords.latitude >= 0) {
-            setHemisphere("northern");
-          } else {
-            setHemisphere("southern");
-          }
-        },
-        () => {
-          // permission denied or error: keep default
-        },
-      );
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+        setHemisphere(latitude >= 0 ? "northern" : "southern");
+
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`,
+          );
+          const data = await response.json();
+          const city =
+            data.address.city || data.address.town || data.address.village;
+          if (city) setUserCity(city);
+        } catch (error) {
+          console.error("Geocoding failed", error);
+        }
+      });
     }
   }, []);
 
@@ -68,41 +80,41 @@ function App() {
     autumn: bgAutumn,
     winter: bgWinter,
   };
-  const currentSeasonBackground = seasonBackgrounds[season] || bgSummer;
+  const currentSeasonBackground = seasonBackgrounds[season] || bgSpring;
 
-  // 1. Initialize favorites from localStorage (Cache)
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favouritePlants");
     return saved ? JSON.parse(saved) : [];
   });
 
-  // Load CSV data on mount
   useEffect(() => {
     Papa.parse("/plants.csv", {
       download: true,
       header: true,
-      complete: (results) => {
-        setAllPlants(results.data);
-      },
+      complete: (results) => setAllPlants(results.data),
     });
   }, []);
 
-  // 2. Sync favorites to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("favouritePlants", JSON.stringify(favorites));
   }, [favorites]);
 
-  // 3. Toggle Favorite Logic
+  // 3. Location Change Handler
+  const handleLocationChange = (e) => {
+    const selectedName = e.target.value;
+    const location = LOCATION_PRESETS.find((loc) => loc.name === selectedName);
+    if (location) {
+      setUserCity(location.name);
+      setHemisphere(location.hemisphere);
+    }
+  };
+
   const toggleFavorite = (plant) => {
     setFavorites((prev) => {
       const isAlreadyFav = prev.some((p) => p.name === plant.name);
-      if (isAlreadyFav) {
-        // Remove if exists
-        return prev.filter((p) => p.name !== plant.name);
-      } else {
-        // Add if new
-        return [...prev, plant];
-      }
+      return isAlreadyFav
+        ? prev.filter((p) => p.name !== plant.name)
+        : [...prev, plant];
     });
   };
 
@@ -122,34 +134,50 @@ function App() {
   return (
     <div
       className="app-background"
-      style={{
-        backgroundImage: `url(${currentSeasonBackground})`,
-      }}
+      style={{ backgroundImage: `url(${currentSeasonBackground})` }}
     >
       <img src={logo} alt="Flora-Cast logo" className="app-logo" />
-      <div className="season-chip">Season: {season.charAt(0).toUpperCase() + season.slice(1)}</div>      <div className="hemisphere-selector">
-        <label htmlFor="hemisphere-select">Hemisphere</label>
-        <select
-          id="hemisphere-select"
-          value={hemisphere}
-          onChange={(e) => setHemisphere(e.target.value)}
-        >
-          <option value="northern">Northern Hemisphere</option>
-          <option value="southern">Southern Hemisphere</option>
-        </select>
-      </div>      <div className="dashboard-grid">
+
+      {/* 4. New Location & Season Header Section */}
+      <div className="location-controls-bar">
+        <div className="location-selector">
+          <label htmlFor="location-select">Location:</label>
+          <select
+            id="location-select"
+            value={userCity}
+            onChange={handleLocationChange}
+          >
+            {!LOCATION_PRESETS.find((l) => l.name === userCity) && (
+              <option value={userCity}>{userCity} (Detected)</option>
+            )}
+            {LOCATION_PRESETS.map((loc) => (
+              <option key={loc.name} value={loc.name}>
+                {loc.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="season-chip">
+          Season: {season.charAt(0).toUpperCase() + season.slice(1)}
+        </div>
+      </div>
+
+      <div className="dashboard-grid">
         <IslandTile title="Weather" className="weather-main">
-          <Weather city="London" />
+          <Weather city={userCity} />
         </IslandTile>
 
         <div className="sidebar-section">
           <IslandTile title="Plants of the Season">
-            {/* Seasonal logic */}
+            <p style={{ textAlign: "center", opacity: 0.8 }}>
+              Best plants for {season} in the {hemisphere}...
+            </p>
           </IslandTile>
 
           <br></br>
 
-          <IslandTile title="Search for a Plant">
+          <IslandTile title="Search for a Plant" className="search-island">
             <form className="plant-search-form" onSubmit={handleSearch}>
               <input
                 type="text"
@@ -165,9 +193,7 @@ function App() {
 
             <div className="plant-result-grid">
               {searchResults.map((plant, index) => {
-                // Check if this specific plant is in favorites
                 const isFav = favorites.some((p) => p.name === plant.name);
-
                 return (
                   <div key={index} className="plant-result-row">
                     <div
@@ -176,17 +202,16 @@ function App() {
                     >
                       <button className="star-btn">{isFav ? "★" : "☆"}</button>
                     </div>
-
                     <a
                       href={plant.wiki}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noreferrer"
                       className="plant-card-link"
                     >
                       <article className="plant-card">
                         <img
                           src={plant.image}
-                          alt={plant.name}
+                          alt=""
                           className="plant-card-img"
                         />
                         <div className="plant-info">
@@ -202,20 +227,23 @@ function App() {
           </IslandTile>
         </div>
 
-        {/* 4. Display Favorites in the Footer */}
         <IslandTile title="Favourite Plants" className="favorites-footer">
           <div className="favorites-horizontal-list">
             {favorites.length > 0 ? (
               favorites.map((plant, index) => (
                 <div key={index} className="fav-card">
-                  {/* Remove button at the top right of the card */}
                   <button
                     className="fav-card-remove"
                     onClick={() => toggleFavorite(plant)}
                   >
                     ×
                   </button>
-                  <a href={plant.wiki}>
+                  <a
+                    href={plant.wiki}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="fav-card-inner"
+                  >
                     <img src={plant.image} alt="" className="fav-card-img" />
                     <div className="fav-card-info">
                       <span className="fav-card-name">{plant.name}</span>
@@ -226,7 +254,7 @@ function App() {
               ))
             ) : (
               <p className="no-favs-text">
-                Your garden is empty. Start by starring some plants!
+                Your garden is empty. Start starring plants!
               </p>
             )}
           </div>

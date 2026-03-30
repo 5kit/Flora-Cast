@@ -96,7 +96,7 @@
 }
 
 .season-chip {
-    position: fixed;
+    position: absolute;
     top: 12px;
     right: 12px;
     z-index: 1000;
@@ -109,8 +109,8 @@
     backdrop-filter: blur(4px);
 }
 
-.hemisphere-selector {
-    position: fixed;
+.location-selector {
+    position: absolute;
     top: 12px;
     left: 12px;
     z-index: 1000;
@@ -118,19 +118,26 @@
     align-items: center;
     gap: 8px;
     background: rgba(0, 0, 0, 0.55);
-    color: #ffffff;
+    color: #fff;
     padding: 6px 8px;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, 0.45);
     backdrop-filter: blur(4px);
 }
 
-.hemisphere-selector select {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
+.location-selector select {
+    background: rgba(50, 50, 50, 0.15);
+    color: #fff;
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 6px;
     padding: 2px 6px;
+}
+
+/* Styles the actual list that drops down */
+.location-selector select option {
+    background-color: #2a3d30; /* A darker green for the list */
+    color: white;
+    padding: 10px;
 }
 
 .app-logo {
