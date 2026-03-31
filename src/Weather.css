@@ -1,77 +1,96 @@
+/* =========================
+   MAIN WEATHER CONTAINER
+   ========================= */
+
 /* Main Container - Transparent & No Scroll */
 .weather-container {
-    background: transparent;
-    color: #fff;
-    padding: 10px;
-    height: 100%;
+    background: transparent; /* No background, blends with parent */
+    color: #fff; /* White text for contrast */
+    padding: 10px; /* Inner spacing */
+    height: 100%; /* Fills parent container */
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Stack children vertically */
 }
+
+/* =========================
+   TOP ROW (CURRENT + FORECAST)
+   ========================= */
 
 /* Row 1: Brief Data + Forecast */
 .weather-top-row {
-    display: flex;
-    align-items: center; /* Vertically centers forecast with temp */
-    gap: 30px;
-    margin-bottom: 10px;
+    display: flex; /* Horizontal layout */
+    align-items: center; /* Vertically align items */
+    gap: 30px; /* Space between current and forecast */
+    margin-bottom: 10px; /* Space below row */
 }
 
-/* Holds London, 9C, and Description */
+/* Holds location, temperature, and description */
 .current-brief {
-    min-width: fit-content;
+    min-width: fit-content; /* Prevents shrinking too small */
 }
 
+/* Temperature display */
 .temp {
-    font-size: 6rem; /* Largest element for glanceability  */
+    font-size: 6rem; /* Very large for emphasis */
     font-weight: bold;
     margin: 0;
-    line-height: 1;
-    color: #9f9;
-    text-shadow: 2px;
+    line-height: 1; /* Tight vertical spacing */
+    color: #9f9; /* Light green highlight */
+    text-shadow: 2px; /* (Note: incomplete value, may not render as expected) */
 }
 
-/* Forecast row positioned immediately to the right */
+/* Forecast row positioned to the right of current weather */
 .forecast-row {
-    display: flex;
-    gap: 8px;
-    flex-grow: 1;
+    display: flex; /* Horizontal layout */
+    gap: 8px; /* Space between forecast boxes */
+    flex-grow: 1; /* Takes remaining space */
 }
 
-/* Transparent Glass Forecast Boxes */
+/* =========================
+   FORECAST BOXES
+   ========================= */
+
+/* Individual forecast card */
 .forecast-box {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.2); /* Glass effect */
+    backdrop-filter: blur(5px); /* Blur background behind */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+    border-radius: 12px; /* Rounded corners */
     padding: 8px;
-    flex: 1; /* Makes all boxes equal width */
+    flex: 1; /* Equal width for all boxes */
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 55px;
-    min-height: 100px;
+    flex-direction: column; /* Stack contents vertically */
+    align-items: center; /* Center content horizontally */
+    min-width: 55px; /* Prevents shrinking too small */
+    min-height: 100px; /* Ensures consistent height */
 }
 
-/* Row 2: Full-width Notice & Details */
+/* =========================
+   BOTTOM ROW (NOTICE + DETAILS)
+   ========================= */
+
+/* Row 2 container */
 .weather-bottom-row {
-    width: 100%;
+    width: 100%; /* Full width */
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Stack notice and details */
 }
 
+/* Notice / alert box */
 .weather-notice-box {
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.4); /* Stronger glass effect */
+    backdrop-filter: blur(10px); /* More blur for emphasis */
     border-radius: 12px;
     padding: 15px;
-    margin: 10px 0;
-    border-left: 5px solid #2d4c36;
-    width: 90%; /* Spans across both top sections */
+    margin: 10px 0; /* Vertical spacing */
+    border-left: 5px solid #2d4c36; /* Accent bar */
+    width: 90%; /* Slightly inset from full width */
 }
 
+/* Additional weather details (e.g., humidity, wind) */
 .details {
-    display: flex;
-    gap: 20px;
-    font-size: 0.9rem;
-    padding-left: 5px;
+    display: flex; /* Horizontal layout */
+    gap: 20px; /* Space between detail items */
+    font-size: 0.9rem; /* Slightly smaller text */
+    padding-left: 5px; /* Small left offset */
 }
