@@ -1,8 +1,20 @@
 name,image,wiki,season,type
-Spinach,https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Spinacia_oleracea_Spinazie_bloeiend.jpg/250px-Spinacia_oleracea_Spinazie_bloeiend.jpg,https://en.wikipedia.org/wiki/Spinach,Spring,Vegetable
-Aloe Vera,https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.png/330px-Aloe_vera_flower_inset.png,https://en.wikipedia.org/wiki/Aloe_vera,All,Succulent
-Monstera,https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Monstera_deliciosa2.jpg/250px-Monstera_deliciosa2.jpg,https://en.wikipedia.org/wiki/Monstera_deliciosa,Summer,Indoor
-Basil,https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Ocimum_basilicum_8zz.jpg/250px-Ocimum_basilicum_8zz.jpg,https://en.wikipedia.org/wiki/Basil,Summer,Herb
-Snake Plant,https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Snake_Plant_%28Sansevieria_trifasciata_%27Laurentii%27%29.jpg/250px-Snake_Plant_%28Sansevieria_trifasciata_%27Laurentii%27%29.jpg,https://en.wikipedia.org/wiki/Dracaena_trifasciata,All,Indoor
-Lavender,https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Single_lavender_flower02.jpg/250px-Single_lavender_flower02.jpg,https://en.wikipedia.org/wiki/Lavandula,Summer,Herb
-Tomato,https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/250px-Tomato_je.jpg,https://en.wikipedia.org/wiki/Tomato,Summer,Vegetable
+Spinach,https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Spinacia_oleracea_Spinazie_bloeiend.jpg/250px-Spinacia_oleracea_Spinazie_bloeiend.jpg,https://www.rhs.org.uk/plants/105498/spinacia-oleracea/details,Year-long,Vegetable
+Aloe Vera,https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inset.png/330px-Aloe_vera_flower_inset.png,https://www.rhs.org.uk/plants/981/aloe-vera/details,Year-long,Succulent
+Monstera,https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Monstera_deliciosa2.jpg/250px-Monstera_deliciosa2.jpg,https://www.rhs.org.uk/plants/11192/monstera-deliciosa-(f)/details,Year-long,Indoor
+Basil,https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Ocimum_basilicum_8zz.jpg/250px-Ocimum_basilicum_8zz.jpg,https://www.rhs.org.uk/plants/11649/ocimum-basilicum/details,Spring-Autumn,Herb
+Snake Plant,https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Snake_Plant_%28Sansevieria_trifasciata_%27Laurentii%27%29.jpg/250px-Snake_Plant_%28Sansevieria_trifasciata_%27Laurentii%27%29.jpg,https://www.rhs.org.uk/plants/16407/sansevieria/details,Year-long,Indoor
+Lavender,https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Single_lavender_flower02.jpg/250px-Single_lavender_flower02.jpg,https://www.rhs.org.uk/plants/99904/lavandula-angustifolia-munstead/details,Summer,Herb
+Tomato,https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Tomato_je.jpg/250px-Tomato_je.jpg,https://www.rhs.org.uk/plants/293619/solanum-lycopersicum/details,Summer,Vegetable
+Broccoli,https://upload.wikimedia.org/wikipedia/commons/3/34/Broccoli_plants_growing_in_New_Jersey_in_April.jpg,https://www.rhs.org.uk/plants/112514/brassica-oleracea-italica-group/details,Year-long,Vegetable
+Brussels sprout,https://upload.wikimedia.org/wikipedia/commons/2/23/Brussels_sprout_closeup.jpg,https://www.rhs.org.uk/plants/2392/brassica-oleracea-gemmifera-group/details,Year-long,Vegetable
+Cabbage,https://upload.wikimedia.org/wikipedia/commons/2/2e/Chou_1.jpg,https://www.rhs.org.uk/plants/139301/brassica-oleracea-capitata-group/details,Year-long,Vegetable
+Kale,https://upload.wikimedia.org/wikipedia/commons/2/20/Boerenkool.jpg,https://www.rhs.org.uk/plants/106079/brassica-oleracea-acephala-group/details,Year-long,Vegetable
+Leek,https://upload.wikimedia.org/wikipedia/commons/1/14/Allium_ampeloprasum_Lauch_Kurpfalzhof_2011.JPG,https://www.rhs.org.uk/plants/106043/allium-porrum/details,Year-long,Vegetable
+Parsnip,https://upload.wikimedia.org/wikipedia/commons/b/b7/PastinakePflanzegeerntet.jpg,https://www.rhs.org.uk/plants/24473/pastinaca-sativa/details,Year-long,Vegetable
+Grape,https://upload.wikimedia.org/wikipedia/commons/d/dd/Cabernet_Sauvignon_Gaillac.jpg,https://www.rhs.org.uk/plants/134401/vitis-vinifera/details,Autumn,Fruit
+Melon,https://upload.wikimedia.org/wikipedia/commons/f/ff/Muskmelon.jpg,https://www.rhs.org.uk/plants/105565/cucumis-melo/details,Summer,Fruit
+Peach,https://upload.wikimedia.org/wikipedia/commons/4/4b/Prunus_persica_-_Peach_Hungary.jpg,https://www.rhs.org.uk/plants/156648/prunus-persica/details,Summer,Fruit
+Pear,https://upload.wikimedia.org/wikipedia/commons/c/cf/Pears.jpg,https://www.rhs.org.uk/plants/14227/pyrus-communis-(f)/details,Autumn,Fruit
+Plum,https://commons.wikimedia.org/wiki/File:Prunus_domestica_%27Reine_Victoria%27.jpg,https://www.rhs.org.uk/plants/84405/prunus-domestica-(d-c)/details,Summer-Autumn,Fruit
+Raspberry,https://upload.wikimedia.org/wikipedia/commons/4/4b/Fert%C5%91di_k%C3%A1rmin_m%C3%A1lna.JPG,https://www.rhs.org.uk/plants/226554/rubus-idaeus-all-gold-(f)/details/details,Summer-Autumn,Fruit
