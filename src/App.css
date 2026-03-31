@@ -479,3 +479,40 @@
 .fav-card-remove:hover {
     color: #ff4d4d;
 }
+
+.seasonal-plants-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 0 5px;
+}
+
+.seasonal-plant-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05); /* Slight glass effect */
+  padding: 8px;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+}
+
+.seasonal-plant-row:hover {
+  transform: translateX(5px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.seasonal-mini-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.seasonal-plant-row span {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #ffffff;
+}
