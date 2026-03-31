@@ -122,15 +122,16 @@ function App() {
       complete: (results) => {
         const allData = results.data;
         setAllPlants(allData);
-        
+
         // Filter logic: Match "Year-long" or the current specific season
-        const filtered = allData.filter(plant => {
+        const filtered = allData.filter((plant) => {
           if (!plant.season) return false;
           const plantSeason = plant.season.toLowerCase();
           const currentSeason = season.toLowerCase();
-          
-          return plantSeason === "year-long" || 
-                 plantSeason.includes(currentSeason);
+
+          return (
+            plantSeason === "year-long" || plantSeason.includes(currentSeason)
+          );
         });
         setSeasonalPlants(filtered);
       },
@@ -221,19 +222,24 @@ function App() {
 
         <div className="sidebar-section">
           <IslandTile title="Plants of the Season">
-            <p style={{ textAlign: "center", opacity: 0.8, marginBottom: "10px" }}>
-              Best plants for {season} in the {hemisphere} hemisphere.
-            </p>
             <div className="seasonal-plants-container">
               {seasonalPlants.length > 0 ? (
-                seasonalPlants.slice(0, 3).map((plant, index) => (
-                  <div key={index} className="seasonal-plant-row">
-                    <img src={plant.image} alt={plant.name} className="seasonal-mini-img" />
-                    <span>{plant.name}</span>
-                  </div>
+                seasonalPlants.map((plant, index) => (
+                  <a href={plant.wiki}>
+                    <div key={index} className="seasonal-plant-row">
+                      <img
+                        src={plant.image}
+                        alt={plant.name}
+                        className="seasonal-mini-img"
+                      />
+                      <span>{plant.name}</span>
+                    </div>
+                  </a>
                 ))
               ) : (
-                <p style={{ textAlign: "center", fontSize: "0.8em" }}>Loading seasonal plants...</p>
+                <p style={{ textAlign: "center", fontSize: "0.8em" }}>
+                  Loading seasonal plants...
+                </p>
               )}
             </div>
           </IslandTile>
