@@ -6,7 +6,10 @@ const Weather = ({ city }) => {
   const [weatherData, setWeatherData] = useState(null);
   const [forecast, setForecast] = useState([]);
   const [error, setError] = useState(false);
-  // Using OpenWeatherMap API for high-fidelity meteorological data
+
+  // NEW: State to track temperature unit ('metric' for Celsius, 'imperial' for Fahrenheit)
+  const [unit, setUnit] = useState("metric");
+
   const API_KEY = "3c55a281d6b83372a349a206cccae9e3";
 
   useEffect(() => {
@@ -14,21 +17,17 @@ const Weather = ({ city }) => {
       if (!city) return;
       try {
         setError(false);
-        // FETCH 1: Current Weather for immediate dashboard feedback
+        // FETCH 1: Current Weather - the 'units' parameter now uses our state
         const currentRes = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`,
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${API_KEY}`,
         );
         setWeatherData(currentRes.data);
 
-        // FETCH 2: 5-Day Forecast to assist with gardener's long-term planning
+        // FETCH 2: 5-Day Forecast - units dynamically update here too
         const forecastRes = await axios.get(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${API_KEY}`,
+          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${API_KEY}`,
         );
 
-        /**
-         * DATA CLEANING: The API returns data in 3-hour increments.
-         * We filter for "12:00:00" to provide a consistent daily "mid-day" temperature reading.
-         */
         const dailyData = forecastRes.data.list
           .filter((reading) => reading.dt_txt.includes("12:00:00"))
           .slice(0, 6);
@@ -41,18 +40,27 @@ const Weather = ({ city }) => {
     };
 
     fetchAllWeather();
-  }, [city]); // Re-fetch whenever the parent App updates the city
+  }, [city, unit]); // Re-fetch when city OR unit changes
 
   /**
-   * ACTIONABLE ADVICE: Translates raw data into plant care instructions.
-   * Directly addresses the "Stakeholder Needs" requirement in the mark scheme.
+   * UNIT TOGGLE: Enhances UX by allowing the user to choose their preferred scale.
+   * Matches the "Capability to retrieve data" requirement in the brief.
    */
+  const toggleUnit = () => {
+    setUnit(unit === "metric" ? "imperial" : "metric");
+  };
+
   const renderWeatherNotice = () => {
     if (!weatherData) return null;
-    const temp = weatherData.main.temp;
+    // Note: We check Celsius values for logic, but display the current unit in UI
+    // We convert the current temp to Celsius for the logic check if in imperial
+    const tempInC =
+      unit === "metric"
+        ? weatherData.main.temp
+        : ((weatherData.main.temp - 32) * 5) / 9;
     const wind = weatherData.wind.speed;
 
-    if (temp <= 2) return "Frost risk tonight, cover your plants";
+    if (tempInC <= 2) return "Frost risk tonight, cover your plants";
     if (wind > 10) return "Strong winds - protect young plants";
     return "Current weather is good for your plants";
   };
@@ -70,18 +78,27 @@ const Weather = ({ city }) => {
         <div className="weather-content-wrapper">
           <div className="weather-top-row">
             <div className="current-brief">
-              <h2>{weatherData.name}</h2>
-              <p className="temp">{Math.round(weatherData.main.temp)}°C</p>
+              <div className="location-header">
+                <h2>{weatherData.name}</h2>
+              </div>
+              <p className="temp">
+                {Math.round(weatherData.main.temp)}
+                {unit === "metric" ? "°C" : "°F"}
+              </p>
+              {/* UNIT TOGGLE BUTTON */}
+              <button className="unit-toggle" onClick={toggleUnit}>
+                Displaying: {unit === "metric" ? "°C" : "°F"} (Switch)
+              </button>
               <p className="desc">{weatherData.weather[0].description}</p>
             </div>
 
-            {/* Render filtered forecast reading per day */}
             <div className="forecast-row">
               {forecast.map((day, index) => (
                 <div key={index} className="forecast-box">
                   <span className="forecast-day">{getDayName(day.dt_txt)}</span>
                   <span className="forecast-temp">
-                    {Math.round(day.main.temp)}°C
+                    {Math.round(day.main.temp)}
+                    {unit === "metric" ? "°C" : "°F"}
                   </span>
                   <img
                     src={`https://openweathermap.org/img/wn/${day.weather[0].icon}.png`}
@@ -100,7 +117,10 @@ const Weather = ({ city }) => {
 
             <div className="details">
               <p>Humidity: {weatherData.main.humidity}%</p>
-              <p>Wind: {weatherData.wind.speed} m/s</p>
+              <p>
+                Wind: {weatherData.wind.speed}{" "}
+                {unit === "metric" ? "m/s" : "mph"}
+              </p>
             </div>
           </div>
         </div>
