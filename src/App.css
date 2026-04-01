@@ -44,7 +44,7 @@
 .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr; /* Full width */
-    gap: 50px;
+    gap: 30px;
     padding: 15px;
     max-width: calc(min(1500px, 100vw - 30px)); /* Responsive max width */
     margin: 0 auto; /* Center horizontally */
@@ -75,6 +75,11 @@
     }
 }
 
+/* keep content within layout */
+.sidebar-section {
+    min-width: 0;
+}
+
 /* Overriding island container style (second definition) */
 .island-container {
     background-color: #2d4c36;
@@ -85,7 +90,7 @@
     color: white;
     min-height: 120px; /* Prevents collapsing */
     width: 100%;
-    box-sizing: border-box; /* Includes padding in width */
+    box-sizing: border-box;
 }
 
 /* Weather section styling */
@@ -243,7 +248,7 @@
 .plant-result-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 5px;
     margin-top: 8px;
 }
 
@@ -300,7 +305,7 @@
 
 /* Scrollable results */
 .plant-result-grid {
-    height: 200px;
+    height: 150px;
     overflow: auto;
 
     /* Hide scrollbar (Chrome, Safari) */
@@ -398,8 +403,9 @@
    FAVORITES SECTION
    ========================= */
 
+/* keep content within grid */
 .favorites-footer {
-    max-width: calc(max(650px, 100vw - 30px));
+    min-width: 0;
 }
 
 /* Horizontal scroll list */
@@ -478,4 +484,57 @@
 
 .fav-card-remove:hover {
     color: #ff4d4d;
+}
+
+/* ============================================================
+   SEASONAL PLANTS SECTION
+   Updated to horizontal row layout to match Favourite Plants
+   ============================================================ */
+
+.seasonal-plants-container {
+    display: flex;
+    flex-direction: row; /* Changed from column to row for horizontal stacking */
+    gap: 15px; /* Increased gap for horizontal breathing room */
+    margin-top: 10px;
+    padding: 10px 5px;
+    flex: 0 0 auto;
+    max-width: 100%;
+    overflow-x: auto; /* Enables side-scrolling if many plants are present */
+}
+
+.seasonal-plant-row {
+    display: flex;
+    flex-direction: column; /* Stacks image above text within the item */
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px; /* Uniform padding for card feel */
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+    min-width: 80px; /* Ensures consistent card width */
+}
+
+.seasonal-plant-row:hover {
+    transform: translateY(
+        -5px
+    ); /* Lift effect instead of slide for horizontal rows */
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Fixed image dimensions to ensure all thumbnails are the same size */
+.seasonal-mini-img {
+    width: 70px; /* Fixed width */
+    height: 70px; /* Fixed height */
+    aspect-ratio: 1 / 1;
+    border-radius: 50%; /* Maintains circular shape */
+    object-fit: cover; /* Prevents stretching/distortion */
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    display: block;
+}
+
+.seasonal-plant-row span {
+    font-size: 0.85rem; /* Slightly smaller to fit horizontal layout */
+    font-weight: 500;
+    color: #ffffff;
+    text-align: center;
 }

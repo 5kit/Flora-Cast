@@ -63,6 +63,7 @@ function App() {
   const [allPlants, setAllPlants] = useState([]);
   const [hemisphere, setHemisphere] = useState("northern");
   const [userCity, setUserCity] = useState("London");
+  const [seasonalPlants, setSeasonalPlants] = useState([]);
 
   /**
    * EXTENSION: Automatic Geolocation & Reverse Geocoding.
@@ -118,9 +119,24 @@ function App() {
     Papa.parse("/plants.csv", {
       download: true,
       header: true,
-      complete: (results) => setAllPlants(results.data),
+      complete: (results) => {
+        const allData = results.data;
+        setAllPlants(allData);
+
+        // Filter logic: Match "Year-long" or the current specific season
+        const filtered = allData.filter((plant) => {
+          if (!plant.season) return false;
+          const plantSeason = plant.season.toLowerCase();
+          const currentSeason = season.toLowerCase();
+
+          return (
+            plantSeason === "year-long" || plantSeason.includes(currentSeason)
+          );
+        });
+        setSeasonalPlants(filtered);
+      },
     });
-  }, []);
+  }, [season]);
 
   // Sync favorites to LocalStorage whenever the state changes
   useEffect(() => {
@@ -206,9 +222,26 @@ function App() {
 
         <div className="sidebar-section">
           <IslandTile title="Plants of the Season">
-            <p style={{ textAlign: "center", opacity: 0.8 }}>
-              Best plants for {season} in the {hemisphere} hemisphere.
-            </p>
+            <div className="seasonal-plants-container">
+              {seasonalPlants.length > 0 ? (
+                seasonalPlants.map((plant, index) => (
+                  <a href={plant.wiki}>
+                    <div key={index} className="seasonal-plant-row">
+                      <img
+                        src={plant.image}
+                        alt={plant.name}
+                        className="seasonal-mini-img"
+                      />
+                      <span>{plant.name}</span>
+                    </div>
+                  </a>
+                ))
+              ) : (
+                <p style={{ textAlign: "center", fontSize: "0.8em" }}>
+                  Loading seasonal plants...
+                </p>
+              )}
+            </div>
           </IslandTile>
 
           <br />
